@@ -7,5 +7,6 @@ def convert(srcMp3,dstWav='au.wav'):
 
 def main():
     srcfile=input("enter the MP3 file song: ")
-    convert(srcfile)
+    
+    convert(srcfile,input('enter the output song'))
 main()
