@@ -1,10 +1,10 @@
 # We will use wave package available in native Python installation to read and write .wav audio file
 import wave
 
+ENDSIGNAL=10 *'#'
 
-
-# # # # ========================== function test ==================
-def getfisrt0(frame_bytes):
+# # # # ========================== function helper ==================
+def getnumfirstframe0(frame_bytes):
     res=0
     for i in range(0,len(frame_bytes)):
         if frame_bytes[i]==0:
@@ -12,21 +12,29 @@ def getfisrt0(frame_bytes):
         else:
             break
     return res
-def sum0(frame_bytes):
+
+def getsumframe0(frame_bytes):
     res=0
     for i in range(0,len(frame_bytes)):
         if frame_bytes[i]==0:
             res+=1
     return res
-def sumnot0(frame_bytes):
+
+def getsumnot0frame(frame_bytes):
     res=0
     for i in range(0,len(frame_bytes)):
         if frame_bytes[i]!=0:
             res+=1
     return res
-# # # # ========================== function test end ==============
 
-ENDSIGNAL=10 *'#'
+def getsumofframe(frame_bytes):
+    return len(frame_bytes)
+
+def goodnumcharhiden(frame_bytes):
+    return (getsumofframe(frame_bytes)//(8*8)) - len(ENDSIGNAL)
+# # # # ========================== function helper end ==============
+
+
 
 # read wave audio file
 filename=input('enter the file audio .wav: ')
@@ -37,9 +45,9 @@ frame_bytes = bytearray(list(song.readframes(song.getnframes())))
 
 
 # test =======================================
-print('first 0: ',getfisrt0(frame_bytes))
-print('sum 0: ',sum0(frame_bytes))
-print('not 0: ',sumnot0(frame_bytes))
+print('first 0: ',getnumfirstframe0(frame_bytes))
+print('sum 0: ',getsumframe0(frame_bytes))
+print('not 0: ',getsumnot0frame(frame_bytes))
 print('length:',len(frame_bytes))
 # end test ====================================
 
