@@ -27,7 +27,7 @@ def getTextFromLSBlist(LSBlst):
         if hidenstring[ (-1*len(ENDSIGNAL)):].__eq__(ENDSIGNAL):
             return hidenstring[:(-1*len(ENDSIGNAL))]
     return ''
-
+# decode function
 def decodeAudio(steganoFileName):
     song = wave.open(steganoFileName, mode='rb')
     # Convert audio to byte array

@@ -7,14 +7,18 @@ ENDSIGNAL=NUMOFSIGNAL *'#'
 
 
 def encodeAudio(audioFileName,hidenString='',audioSteganoFileName='song_embedded.wav'):
+    # check stegano output file
+    if len(audioSteganoFileName)<1:
+        audioSteganoFileName='song_embedded.wav'
     # change mp3 to wav
     if mp3towav.isMp3(audioFileName):
         file_path = audioFileName
         file_name = os.path.basename(file_path)
         file_name=os.path.splitext(file_name)[0]
         mp3towav.convertMp3toWav(audioFileName,file_name+'.wav')
-    # reload file name
-    audioFileName=file_name+'.wav'
+        # reload file name
+        audioFileName=file_name+'.wav'
+        
     # read wave audio file
     song = wave.open(audioFileName, mode='rb')
     # Read frames and convert to byte array
