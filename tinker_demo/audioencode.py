@@ -10,6 +10,8 @@ def encodeAudio(audioFileName,hidenString='',audioSteganoFileName='song_embedded
     # check stegano output file
     if len(audioSteganoFileName)<1:
         audioSteganoFileName='song_embedded.wav'
+    else:
+        audioSteganoFileName=audioSteganoFileName+'.wav'
     # change mp3 to wav
     if mp3towav.isMp3(audioFileName):
         file_path = audioFileName
