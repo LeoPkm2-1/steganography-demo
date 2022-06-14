@@ -150,23 +150,7 @@ def decode_text(image_name):
     text = showData(image)
     return text
     
-# # this is the main() function
-# def Steganography():
-#     choice = input('image steganography \n1. encode the data \n2.decode the data \n your input is: ....')
-#     userinput = int(choice)
-#     if(userinput ==1):
-#         print('\nencoding.....\n')
-#         f_name=input('file name\n')
-#         message=input("message to hiden")
-#         encode_text(f_name,message)
-#     elif(userinput ==2):
-#         print('\ndecoding....')
-#         img_name=input('enter steganography image')
-#         print('\ndecoded message is:'+ decode_text(img_name)+'$')
-#     else:
-#         raise Exception('enter the right input!')
 
-# Steganography()
 
 def split_string(s_str,count=10):
     per_c=math.ceil(len(s_str)/count)

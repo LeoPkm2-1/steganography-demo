@@ -12,16 +12,21 @@ import os
 from subprocess import Popen
 import audioencode
 import audiodecode
+import imgendecode
 
+now=[]
 
-
-
-def encodeimgfun():
-    encodepage.destroy()
+def recreatelayout(layout):
+    now[0].destroy()
+    now.pop(0)
+    now.insert(0,layout)
+    
+def encodeimgfun():    
     enc=Tk()
+    recreatelayout(enc)
     enc.attributes("-fullscreen", True)
     # enc.wm_attributes('-transparentcolor')
-    img=ImageTk.PhotoImage(Image.open("bg2.jpg"))
+    img=ImageTk.PhotoImage(Image.open("bg1.jpg"))
     fontl = tkFont.Font(family='Algerian', size=32)
     label1=Label(enc,image=img)
     label1.pack()
@@ -54,12 +59,12 @@ def encodeimgfun():
     # Button2 = Button(text="Openfile",command=openfile)
     # Button2.place(relx=0.7, rely=0.2, height=31, width=94)
     
-    secimg=StringVar()
-    radio1=Radiobutton(text='jpeg',value='jpeg',variable=secimg)
-    radio1.place(relx=0.7,rely=0.57)
+    # secimg=StringVar()
+    # radio1=Radiobutton(text='jpeg',value='jpeg',variable=secimg)
+    # radio1.place(relx=0.7,rely=0.57)
     
-    radio2=Radiobutton(text='png',value='png',variable=secimg)
-    radio2.place(relx=0.8, rely=0.57)
+    # radio2=Radiobutton(text='png',value='png',variable=secimg)
+    # radio2.place(relx=0.8, rely=0.57)
     
 
     Label1 =Label(text="Enter message")
@@ -74,7 +79,7 @@ def encodeimgfun():
     entrysave.place(relx=0.7, rely=0.70, relheight=0.05, relwidth=0.200)
     
     def encode():
-        if secimg.get()=="jpeg":
+        # if secimg.get()=="jpeg":
             inimage=fileopen
             response=messagebox.askyesno("popup","do you want to encode")
             if response==1:
@@ -82,18 +87,18 @@ def encodeimgfun():
                 messagebox.showinfo("popup","successfully encode"+entrysave.get()+".jpeg")               
                 
                 
-            else:
-                messagebox.showwarning("popup","unsuccessful")
+            # else:
+            #     messagebox.showwarning("popup","unsuccessful")
         
-        if secimg.get()=='png':
-            inimage=fileopen
-            response=messagebox.askyesno("popup","do you want to encode")
-            if response==1:
-                lsb.hide(inimage,message=entrysecmes.get()).save(entrysave.get()+'.png')
-                messagebox.showinfo("popup","successfully encode to "+entrysave.get()+".png")
+        # if secimg.get()=='png':
+        #     inimage=fileopen
+        #     response=messagebox.askyesno("popup","do you want to encode")
+        #     if response==1:
+        #         lsb.hide(inimage,message=entrysecmes.get()).save(entrysave.get()+'.png')
+        #         messagebox.showinfo("popup","successfully encode to "+entrysave.get()+".png")
                 
-            else:
-                messagebox.showwarning("popup","unsuccessful")
+        #     else:
+        #         messagebox.showwarning("popup","unsuccessful")
     
     def back():
         enc.destroy()
@@ -304,119 +309,122 @@ def decodevideofun():
     pass
 
 
-def encodePage():
-    
-    # encodepage program
-    main.destroy()
-    global encodepage
-    encodepage=Tk()
-    encodepage.title('Encode page')
-    # encodepage.geometry('1300x750')
-    encodepage.attributes('-fullscreen',True)
-    fontl = tkFont.Font(family='Algerian',size=20)
-    
-    global encodepageimg
-    encodepageimg=ImageTk.PhotoImage(Image.open('bg1.jpg'))
-    label=Label(encodepage,text='lalal',image=encodepageimg)
-    label.pack()
-
-    encbuttonimg=Button(text='Encode Image',fg='white',bg='black',width=15,command=encodeimgfun)
-    encbuttonimg['font'] =fontl 
-    encbuttonimg.place(relx=0.6,rely=0.3)
-
-    encbuttonaudio=Button(text='Encode Audio',fg='white',bg='black',width=15,command=encodeaudiofun)
-    encbuttonaudio['font']=fontl
-    encbuttonaudio.place(relx=0.6,rely=0.4)
-    
-    encbuttonvideo=Button(text='Encode VIdeo',fg='white',bg='black',width=15,command=encodevideofun)
-    encbuttonvideo['font']=fontl
-    encbuttonvideo.place(relx=0.6,rely=0.5)
-
-    def back():
-        encodepage.destroy()
-        Popen(["python3", "./stegano2.py"])
-        
-    closeButton=Button(text='Back',fg='white',bg='red',width=15,command=back)
-    closeButton['font']=fontl
-    closeButton.place(relx=0.6,rely=0.6)
-    encodepage.mainloop()
-
-# ===========================================================================================
-def decodePage():
-    # decodepage program
-    main.destroy()
-    global decodepage
-    decodepage=Tk()
-    decodepage.title('Encode page')
-    # decodepage.geometry('1300x750')
-    decodepage.attributes('-fullscreen',True)
-    fontl = tkFont.Font(family='Algerian',size=20)
-    
-    global decodepageimg
-    decodepageimg=ImageTk.PhotoImage(Image.open('bg1.jpg'))
-    label=Label(decodepage,text='lalal',image=decodepageimg)
-    label.pack()
-
-    decbuttonimg=Button(text='Decode Image',fg='white',bg='black',width=15,command=decodeimgfun)
-    decbuttonimg['font'] =fontl 
-    decbuttonimg.place(relx=0.6,rely=0.3)
-
-    decbuttonaudio=Button(text='Decode Audio',fg='white',bg='black',width=15,command=decodeaudiofun)
-    decbuttonaudio['font']=fontl
-    decbuttonaudio.place(relx=0.6,rely=0.4)
-    
-    decbuttonvideo=Button(text='Decode Video',fg='white',bg='black',width=15,command=decodevideofun)
-    decbuttonvideo['font']=fontl
-    decbuttonvideo.place(relx=0.6,rely=0.5)
-
-    def back():
-        decodepage.destroy()
-        Popen(["python3", "./stegano2.py"])
-        
-    closeButton=Button(text='Back',fg='white',bg='red',width=15,command=back)
-    closeButton['font']=fontl
-    closeButton.place(relx=0.6,rely=0.6)
-    decodepage.mainloop()
+# def encodePage():    
+#     # encodepage program
+#     main.destroy()
+#     global encodepage
+#     encodepage=Tk()
+#     encodepage.title('Encode page')
+#     # encodepage.geometry('1300x750')
+#     encodepage.attributes('-fullscreen',True)
+#     fontl = tkFont.Font(family='Algerian',size=20)    
+#     global encodepageimg
+#     encodepageimg=ImageTk.PhotoImage(Image.open('bg1.jpg'))
+#     label=Label(encodepage,text='lalal',image=encodepageimg)
+#     label.pack()
+#     encbuttonimg=Button(text='Encode Image',fg='white',bg='black',width=15,command=encodeimgfun)
+#     encbuttonimg['font'] =fontl 
+#     encbuttonimg.place(relx=0.6,rely=0.3)
+#     encbuttonaudio=Button(text='Encode Audio',fg='white',bg='black',width=15,command=encodeaudiofun)
+#     encbuttonaudio['font']=fontl
+#     encbuttonaudio.place(relx=0.6,rely=0.4)    
+#     encbuttonvideo=Button(text='Encode VIdeo',fg='white',bg='black',width=15,command=encodevideofun)
+#     encbuttonvideo['font']=fontl
+#     encbuttonvideo.place(relx=0.6,rely=0.5)
+#     def back():
+#         encodepage.destroy()
+#         Popen(["python3", "./stegano2.py"])        
+#     closeButton=Button(text='Back',fg='white',bg='red',width=15,command=back)
+#     closeButton['font']=fontl
+#     closeButton.place(relx=0.6,rely=0.6)
+#     encodepage.mainloop()
+# # ===========================================================================================
+# def decodePage():
+#     # decodepage program
+#     main.destroy()
+#     global decodepage
+#     decodepage=Tk()
+#     decodepage.title('Encode page')
+#     # decodepage.geometry('1300x750')
+#     decodepage.attributes('-fullscreen',True)
+#     fontl = tkFont.Font(family='Algerian',size=20)    
+#     global decodepageimg
+#     decodepageimg=ImageTk.PhotoImage(Image.open('bg1.jpg'))
+#     label=Label(decodepage,text='lalal',image=decodepageimg)
+#     label.pack()
+#     decbuttonimg=Button(text='Decode Image',fg='white',bg='black',width=15,command=decodeimgfun)
+#     decbuttonimg['font'] =fontl 
+#     decbuttonimg.place(relx=0.6,rely=0.3)
+#     decbuttonaudio=Button(text='Decode Audio',fg='white',bg='black',width=15,command=decodeaudiofun)
+#     decbuttonaudio['font']=fontl
+#     decbuttonaudio.place(relx=0.6,rely=0.4)    
+#     decbuttonvideo=Button(text='Decode Video',fg='white',bg='black',width=15,command=decodevideofun)
+#     decbuttonvideo['font']=fontl
+#     decbuttonvideo.place(relx=0.6,rely=0.5)
+#     def back():
+#         decodepage.destroy()
+#         Popen(["python3", "./stegano2.py"])
+#     closeButton=Button(text='Back',fg='white',bg='red',width=15,command=back)
+#     closeButton['font']=fontl
+#     closeButton.place(relx=0.6,rely=0.6)
+#     decodepage.mainloop()
 
 
 
 
 # ===========================================================================================
     
+def HomePage():
+    # main program
+    main=Tk()
+    now.insert(0,main)
+    main.title('Enc & Dec Panel')
+    # main.geometry('1300x750')
+    main.attributes('-fullscreen',True)
+    fontl = tkFont.Font(family='Algerian',size=20)
 
-# main program
-main=Tk()
-main.title('Enc & Dec Panel')
-# main.geometry('1300x750')
-main.attributes('-fullscreen',True)
-fontl = tkFont.Font(family='Algerian',size=32)
+    global image1
+    image1=ImageTk.PhotoImage(Image.open('bg1.jpg'))
+    label=Label(main,text='lalal',image=image1)
+    label.pack()
 
-global image1
-image1=ImageTk.PhotoImage(Image.open('bg1.jpg'))
-label=Label(main,text='lalal',image=image1)
-label.pack()
-
-encbutton=Button(text='Encode',fg='white',bg='black',width=20,command=encodePage)
-encbutton['font'] =fontl 
-encbutton.place(relx=0.6,rely=0.3)
-
-decbutton=Button(text='Decode',fg='white',bg='black',width=20,command=decodePage)
-decbutton['font']=fontl
-decbutton.place(relx=0.6,rely=0.5)
-
-def exit():
-    main.destroy()
-    Popen(["python3", "./stegano2.py"])
+    encbutton1=Button(text='Encode Image',fg='white',bg='black',width=15,command=encodePage)
+    encbutton1['font'] =fontl 
+    encbutton1.place(relx=0.5,rely=0.3)
     
+    encbutton2=Button(text='Encode Audio',fg='white',bg='black',width=15,command=encodePage)
+    encbutton2['font'] =fontl 
+    encbutton2.place(relx=0.5,rely=0.4)
     
-closeButton=Button(text='EXIT',fg='white',bg='red',width=20,command=exit)
-closeButton['font']=fontl
-closeButton.place(relx=0.6,rely=0.7)
-main.mainloop()
+    encbutton3=Button(text='Encode Video',fg='white',bg='black',width=15,command=encodePage)
+    encbutton3['font'] =fontl 
+    encbutton3.place(relx=0.5,rely=0.5)
+
+    decbutton1=Button(text='Decode Image',fg='white',bg='black',width=15,command=decodePage)
+    decbutton1['font']=fontl
+    decbutton1.place(relx=0.7,rely=0.3)
+    
+    decbutton2=Button(text='Decode Audio',fg='white',bg='black',width=15,command=decodePage)
+    decbutton2['font']=fontl
+    decbutton2.place(relx=0.7,rely=0.4)
+    
+    decbutton3=Button(text='Decode Video',fg='white',bg='black',width=15,command=decodePage)
+    decbutton3['font']=fontl
+    decbutton3.place(relx=0.7,rely=0.5)
+
+    def exit():
+        main.destroy()
+        Popen(["python3", "./stegano2.py"])
+        
+        
+    closeButton=Button(text='EXIT',fg='white',bg='red',width=20,command=exit)
+    closeButton['font']=fontl
+    closeButton.place(relx=0.6,rely=0.7)
+    main.mainloop()
 
 
 
-
+HomePage()
 
 # from tkinter import *
 # from tkinter import messagebox

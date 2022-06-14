@@ -108,10 +108,7 @@ def encode_text(image_name,data,filename):
     # details information of image
     print('the shape of the image is: ',image.shape) # check the shape of image 
     print('the original image is shown below: ')
-    resized_image=cv2.resize(image,(500,500)) # resize image as per requirement
-    # cv2_imshow(resized_image) # display image
-    # cv2.waitKey()
-    # data = input('enter the string to be hiden: ....')
+
     if (len(data) == 0 ):
         data='###%###'
         # raise ValueError('data is empty')
@@ -139,25 +136,25 @@ def decode_text(image_name):
     text = showData(image)
     return text
 
-# this is the main() function
-def Steganography():
-    while True:
-        choice = input('image steganography \n1. encode the data \n2.decode the data \n your input is: ....')
-        userinput = choice
-        if(userinput =='1'):
-            print('\nencoding.....')
-            filename=input('\nenter the image_file')
-            data=input('\nenter the string to be hiden')
-            outp=input('\nenter the output file')            
-            encode_text(filename,data,outp)
-        elif(userinput =='2'):
-            print('\ndecoding....')
-            filenamedec=input('\nenter the image_file to be decode')
-            print('\ndecoded message is :'+ decode_text(filenamedec)+'$')
-        else:
-            break
+# # this is the main() function
+# def Steganography():
+#     while True:
+#         choice = input('image steganography \n1. encode the data \n2.decode the data \n your input is: ....')
+#         userinput = choice
+#         if(userinput =='1'):
+#             print('\nencoding.....')
+#             filename=input('\nenter the image_file')
+#             data=input('\nenter the string to be hiden')
+#             outp=input('\nenter the output file')            
+#             encode_text(filename,data,outp)
+#         elif(userinput =='2'):
+#             print('\ndecoding....')
+#             filenamedec=input('\nenter the image_file to be decode')
+#             print('\ndecoded message is :'+ decode_text(filenamedec)+'$')
+#         else:
+#             break
 
-# Steganography()
+# # Steganography()
 
 # secret=encode_text(input('enter image name with ex: '),input('enter string: '),'out123')
 # # secret.save('./out123.png')
@@ -227,31 +224,25 @@ def clean_tmp(path="./tmp"):
         shutil.rmtree(path)
         print("[INFO] tmp files are cleaned up")
 
-def main():
-    input_string = input("Enter the input string :")
-    f_name=input("enter the name of video")
+def encodeVideo(f_name,input_string,outputvideo='OUTv.mp4'):
     frame_extraction(f_name)
     call(["ffmpeg", "-i",f_name, "-q:a", "0", "-map", "a", "tmp/audio.mp3", "-y"],stdout=open(os.devnull, "w"), stderr=STDOUT)
     
     encode_string(input_string)
-    call(["ffmpeg",'-framerate','30' ,"-i", "tmp/%d.png" , "-vcodec", "png", "tmp/outV.mp4", "-y"],stdout=open(os.devnull, "w"), stderr=STDOUT)
-    # call(["ffmpeg",'-framerate','30' ,"-i", "tmp/%d.png" , "-vcodec", "png", "outV.gif", "-y"],stdout=open(os.devnull, "w"), stderr=STDOUT)
+    call(["ffmpeg",'-framerate','30' ,"-i", "tmp/%d.png" , "-vcodec", "png", "tmp/"+outputvideo, "-y"],stdout=open(os.devnull, "w"), stderr=STDOUT)
     
-    call(["ffmpeg", "-i", "tmp/outV.mp4", "-i", "tmp/audio.mp3", "-codec", "copy", "outV.mp4", "-y"],stdout=open(os.devnull, "w"), stderr=STDOUT)
+    call(["ffmpeg", "-i", "tmp/outV.mp4", "-i", "tmp/audio.mp3", "-codec", "copy", outputvideo, "-y"],stdout=open(os.devnull, "w"), stderr=STDOUT)
+    clean_tmp()
     
-       
-    
-    # print("-----------------888-----------------")
-    # call(["ffmpeg", "-i", "outV.mp4", "-b", "10000k", "outV-x264.mp4", "-y"],stdout=open(os.devnull, "w"), stderr=STDOUT)
-    # call(['ffmpeg', "-c:v", "libx264",'-i', 'outV-x264.mp4',"-c:v", "png",'outRaw.mp4','-y'],stdout=open(os.devnull, "w"), stderr=STDOUT)
-    # clean_tmp()
 if __name__ == "__main__":
     while True:
         print("1.Hide a message in video 2.Reveal the secret from video")
         print("any other value to exit")
         choice = input()
         if choice == '1':
-            main()
+            input_string = input("Enter the input string :")
+            f_name=input("enter the name of video")            
+            encodeVideo(f_name,input_string)
         elif choice == '2':
             video_name=input("enter the name of video with extension")
             # call(['ffmpeg','-i',video_name,'-vcodec','png','outV-'+video_name],stdout=open(os.devnull, "w"), stderr=STDOUT)
